@@ -141,19 +141,19 @@ void dumptofile(int argc, const char **argv, const char **envp, const char **app
 			printf("[+] Opening %s for writing.\n", npath);
 			outfd = open(npath, O_RDWR|O_CREAT|O_TRUNC, 0644);
 			if (outfd == -1) {
-				if (strncmp("/private/var/mobile/Applications/", rpath, 33) == 0) {
+				if (strncmp("/private/var/mobile/", rpath, 20) == 0) {
 					printf("[-] Failed opening. Most probably a sandbox issue. Trying something different.\n");
 					
 					/* create new name */
-					strlcpy(npath, "/private/var/mobile/Applications/", sizeof(npath));
-					tmp = strchr(rpath+33, '/');
+					strlcpy(npath, "/private/var/mobile/", sizeof(npath));
+					tmp = strchr(rpath+20, '/');
 					if (tmp == NULL) {
 						printf("[-] Unexpected error with filename.\n");
 						_exit(1);
 					}
 					tmp++;
 					*tmp++ = 0;
-					strlcat(npath, rpath+33, sizeof(npath));
+					strlcat(npath, rpath+20, sizeof(npath));
 					strlcat(npath, "tmp/", sizeof(npath));
 					strlcat(npath, buffer, sizeof(npath));
 					printf("[+] Opening %s for writing.\n", npath);
