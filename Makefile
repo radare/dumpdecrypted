@@ -1,3 +1,6 @@
+PREFIX?=/usr
+DESTDIR?=
+
 GCC_BIN=`xcrun --sdk iphoneos --find gcc`
 GCC_UNIVERSAL=$(GCC_BASE) -arch armv7 -arch armv7s -arch arm64
 SDK=`xcrun --sdk iphoneos --show-sdk-path`
@@ -16,3 +19,13 @@ dumpdecrypted.dylib: dumpdecrypted.o
 
 clean:
 	rm -f *.o dumpdecrypted.dylib
+
+BINDIR=$(DESTDIR)$(PREFIX)/bin
+LIBDIR=$(DESTDIR)$(PREFIX)/lib
+
+install:
+	mkdir -p $(BINDIR)
+	cp -f dumpdecrypted.sh $(BINDIR)/dumpdecrypted
+	chmod +x $(BINDIR)/dumpdecrypted
+	mkdir -p $(LIBDIR)
+	cp -f dumpdecrypted.dylib $(LIBDIR)
